@@ -27,7 +27,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
+         http
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth
             // Temporario para recadastro
@@ -38,6 +38,7 @@ public class SecurityConfig {
             .anyRequest().authenticated()
         )
         .httpBasic(basic -> {});
+    return http.build();
     return http.build();
     }
 
