@@ -39,7 +39,6 @@ public class SecurityConfig {
         )
         .httpBasic(basic -> {});
     return http.build();
-    return http.build();
     }
 
     @Bean
