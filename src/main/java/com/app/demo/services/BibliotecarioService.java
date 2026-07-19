@@ -17,6 +17,7 @@ public class BibliotecarioService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
     public Bibliotecario salvar(Bibliotecario bibliotecario) {
         bibliotecario.setSenha(passwordEncoder.encode(bibliotecario.getSenha()));
         return bibliotecarioRepository.save(bibliotecario);

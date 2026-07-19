@@ -39,7 +39,7 @@ public class SecurityConfig {
             .requestMatchers("/editoras/**").hasRole("BIBLIOTECARIO")
             .requestMatchers("/emprestimos/**").hasRole("BIBLIOTECARIO")
             .requestMatchers("/usuarios/**").hasRole("BIBLIOTECARIO")
-            .requestMatchers("/bibliotecarios/**").hasRole("BIBLIOTECARIO")
+           .requestMatchers(HttpMethod.DELETE, "/BIBLIOTECARIOS/**").permitAll()
             .requestMatchers("/enderecos/**").hasRole("BIBLIOTECARIO")
             .anyRequest().authenticated()
         )

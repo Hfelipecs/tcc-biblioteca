@@ -5,6 +5,7 @@ import com.app.demo.model.Usuario;
 import com.app.demo.repository.UsuarioRepository;
 import com.app.demo.repository.EnderecoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,14 +21,18 @@ public class UsuarioService {
     
 
     // CREATE
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public Usuario salvar(Usuario usuario) {
-    if (usuario.getEndereco() != null && usuario.getEndereco().getID() != 0) {
-        Endereco endereco = enderecoRepository.findById(usuario.getEndereco().getID())
-                .orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
-        usuario.setEndereco(endereco);
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        if (usuario.getEndereco() != null && usuario.getEndereco().getID() != 0) {
+            Endereco endereco = enderecoRepository.findById(usuario.getEndereco().getID())
+                    .orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
+            usuario.setEndereco(endereco);
+        }
+        return usuarioRepository.save(usuario);
     }
-    return usuarioRepository.save(usuario);
-}
     // READ - todos
     public List<Usuario> listarTodos() {
         return usuarioRepository.findAll();
