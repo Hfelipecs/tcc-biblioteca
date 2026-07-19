@@ -28,22 +28,23 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                // Usuarios so podem fazer GET
-                .requestMatchers(HttpMethod.POST, "/bibliotecarios").permitAll()
-                .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
-                .requestMatchers(HttpMethod.POST, "/enderecos").permitAll()
-                
-                .requestMatchers(HttpMethod.GET, "/livros/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/autores/**").permitAll() 
-
-                // Qualquer outra requisição precisa estar autenticado
-                .anyRequest().authenticated()
-            )
-            .httpBasic(basic -> {});
-
-        return http.build();
+        .csrf(csrf -> csrf.disable())
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers(HttpMethod.GET, "/livros/**").hasAnyRole("USUARIO", "BIBLIOTECARIO")
+            .requestMatchers(HttpMethod.GET, "/autores/**").hasAnyRole("USUARIO", "BIBLIOTECARIO")
+            .requestMatchers(HttpMethod.GET, "/editoras/**").hasAnyRole("USUARIO", "BIBLIOTECARIO")
+            .requestMatchers(HttpMethod.GET, "/emprestimos/**").hasAnyRole("USUARIO", "BIBLIOTECARIO")
+            .requestMatchers("/livros/**").hasRole("BIBLIOTECARIO")
+            .requestMatchers("/autores/**").hasRole("BIBLIOTECARIO")
+            .requestMatchers("/editoras/**").hasRole("BIBLIOTECARIO")
+            .requestMatchers("/emprestimos/**").hasRole("BIBLIOTECARIO")
+            .requestMatchers("/usuarios/**").hasRole("BIBLIOTECARIO")
+            .requestMatchers("/bibliotecarios/**").hasRole("BIBLIOTECARIO")
+            .requestMatchers("/enderecos/**").hasRole("BIBLIOTECARIO")
+            .anyRequest().authenticated()
+        )
+        .httpBasic(basic -> {});
+    return http.build();
     }
 
     @Bean
