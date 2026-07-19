@@ -37,12 +37,6 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/livros/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/autores/**").permitAll() 
 
-                // Apenas Bibliotecario pode criar, atualizar e deletar
-                requestMatchers(HttpMethod.POST, "/bibliotecarios").permitAll()
-                .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
-                .requestMatchers(HttpMethod.POST, "/enderecos").permitAll()
-                .requestMatchers(HttpMethod.GET, "/livros/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/autores/**").permitAll() 
                 // Qualquer outra requisição precisa estar autenticado
                 .anyRequest().authenticated()
             )
