@@ -3,6 +3,7 @@ package com.app.demo.services;
 import com.app.demo.model.Endereco;
 import com.app.demo.model.Usuario;
 import com.app.demo.repository.UsuarioRepository;
+import com.app.demo.repository.EnderecoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,8 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private EnderecoRepository enderecoRepository;
 
     // CREATE
     public Usuario salvar(Usuario usuario) {
