@@ -27,14 +27,20 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-         http
+        http
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth
-            // Temporario para recadastro
-            .requestMatchers(HttpMethod.POST, "/bibliotecarios").permitAll()
-            .requestMatchers(HttpMethod.DELETE, "/bibliotecarios/**").permitAll()
-            .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
-            .requestMatchers(HttpMethod.DELETE, "/usuarios/**").permitAll()
+            .requestMatchers(HttpMethod.GET, "/livros/**").hasAnyRole("USUARIO", "BIBLIOTECARIO")
+            .requestMatchers(HttpMethod.GET, "/autores/**").hasAnyRole("USUARIO", "BIBLIOTECARIO")
+            .requestMatchers(HttpMethod.GET, "/editoras/**").hasAnyRole("USUARIO", "BIBLIOTECARIO")
+            .requestMatchers(HttpMethod.GET, "/emprestimos/**").hasAnyRole("USUARIO", "BIBLIOTECARIO")
+            .requestMatchers("/livros/**").hasRole("BIBLIOTECARIO")
+            .requestMatchers("/autores/**").hasRole("BIBLIOTECARIO")
+            .requestMatchers("/editoras/**").hasRole("BIBLIOTECARIO")
+            .requestMatchers("/emprestimos/**").hasRole("BIBLIOTECARIO")
+            .requestMatchers("/usuarios/**").hasRole("BIBLIOTECARIO")
+           .requestMatchers(HttpMethod.DELETE, "/BIBLIOTECARIOS/**").permitAll()
+            .requestMatchers("/enderecos/**").hasRole("BIBLIOTECARIO")
             .anyRequest().authenticated()
         )
         .httpBasic(basic -> {});
