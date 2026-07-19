@@ -3,6 +3,7 @@ package com.app.demo.services;
 import com.app.demo.model.Bibliotecario;
 import com.app.demo.repository.BibliotecarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,9 +14,11 @@ public class BibliotecarioService {
 
     @Autowired
     private BibliotecarioRepository bibliotecarioRepository;
-
-    // CREATE
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+}
     public Bibliotecario salvar(Bibliotecario bibliotecario) {
+        bibliotecario.setSenha(passwordEncoder.encode(bibliotecario.getSenha()));
         return bibliotecarioRepository.save(bibliotecario);
     }
 

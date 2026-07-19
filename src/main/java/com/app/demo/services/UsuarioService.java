@@ -17,6 +17,7 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
     @Autowired
     private EnderecoRepository enderecoRepository;
+    
 
     // CREATE
     public Usuario salvar(Usuario usuario) {
