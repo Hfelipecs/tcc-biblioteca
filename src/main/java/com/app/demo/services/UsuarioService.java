@@ -1,5 +1,6 @@
 package com.app.demo.services;
 
+import com.app.demo.model.Endereco;
 import com.app.demo.model.Usuario;
 import com.app.demo.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,13 @@ public class UsuarioService {
 
     // CREATE
     public Usuario salvar(Usuario usuario) {
-        return usuarioRepository.save(usuario);
+    if (usuario.getEndereco() != null && usuario.getEndereco().getID() != 0) {
+        Endereco endereco = enderecoRepository.findById(usuario.getEndereco().getID())
+                .orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
+        usuario.setEndereco(endereco);
     }
-
+    return usuarioRepository.save(usuario);
+}
     // READ - todos
     public List<Usuario> listarTodos() {
         return usuarioRepository.findAll();

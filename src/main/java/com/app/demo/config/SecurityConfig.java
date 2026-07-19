@@ -34,6 +34,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/bibliotecarios").permitAll()
                 .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
                 .requestMatchers(HttpMethod.POST, "/enderecos").permitAll()
+                
                 .requestMatchers(HttpMethod.GET, "/livros/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/autores/**").permitAll() 
 

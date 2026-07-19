@@ -10,4 +10,5 @@ import java.util.List;
 public interface EnderecoRepository extends JpaRepository<Endereco, Integer> {
     List<Endereco> findByBairro(String bairro);
     Endereco findByCEP(String cep);
+    
 }
