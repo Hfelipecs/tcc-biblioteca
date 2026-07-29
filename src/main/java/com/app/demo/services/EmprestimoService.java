@@ -19,7 +19,7 @@ public class EmprestimoService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    // CREATE - valida elegibilidade antes de salvar
+    //valida elegibilidade antes de salvar
     public Emprestimo salvar(Emprestimo emprestimo) {
         Usuario usuario = emprestimo.getUsuario();
 
@@ -42,27 +42,23 @@ public class EmprestimoService {
         return salvo;
     }
 
-    // READ - todos
     public List<Emprestimo> listarTodos() {
         return emprestimoRepository.findAll();
     }
 
-    // READ - por ID
     public Optional<Emprestimo> buscarPorId(int id) {
         return emprestimoRepository.findById(id);
     }
 
-    // READ - por usuario
+  
     public List<Emprestimo> buscarPorUsuario(int usuarioId) {
         return emprestimoRepository.findByUsuario_ID(usuarioId);
     }
 
-    // READ - por status
     public List<Emprestimo> buscarPorStatus(String status) {
         return emprestimoRepository.findByStatus(status);
     }
 
-    // UPDATE
     public Emprestimo atualizar(Emprestimo emprestimo) {
         return emprestimoRepository.save(emprestimo);
     }
@@ -89,7 +85,6 @@ public class EmprestimoService {
         return emprestimoRepository.save(emprestimo);
     }
 
-    // DELETE
     public void deletar(int id) {
         emprestimoRepository.deleteById(id);
     }

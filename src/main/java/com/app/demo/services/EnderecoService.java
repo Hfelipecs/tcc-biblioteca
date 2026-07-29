@@ -14,37 +14,31 @@ public class EnderecoService {
     @Autowired
     private EnderecoRepository enderecoRepository;
 
-    // CREATE
+   
     public Endereco salvar(Endereco endereco) {
         return enderecoRepository.save(endereco);
     }
 
-    // READ - todos
     public List<Endereco> listarTodos() {
         return enderecoRepository.findAll();
     }
 
-    // READ - por ID
     public Optional<Endereco> buscarPorId(int id) {
         return enderecoRepository.findById(id);
     }
 
-    // READ - por bairro
     public List<Endereco> buscarPorBairro(String bairro) {
         return enderecoRepository.findByBairro(bairro);
     }
 
-    // READ - por CEP
     public Endereco buscarPorCEP(String cep) {
         return enderecoRepository.findByCEP(cep);
     }
 
-    // UPDATE
     public Endereco atualizar(Endereco endereco) {
         return enderecoRepository.save(endereco);
     }
 
-    // DELETE
     public void deletar(int id) {
         enderecoRepository.deleteById(id);
     }

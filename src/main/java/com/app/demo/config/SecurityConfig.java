@@ -12,6 +12,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.*;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+
+import java.util.List;
+
 
 @Configuration
 @EnableWebSecurity
@@ -25,10 +32,46 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+@Bean
+public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+
+    // Libera requisições vindas de qualquer endereço
+    configuration.setAllowedOriginPatterns(List.of("*"));
+
+    configuration.setAllowedMethods(List.of(
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+        "OPTIONS"
+    ));
+
+    configuration.setAllowedHeaders(List.of(
+        "Authorization",
+        "Content-Type",
+        "Accept"
+    ));
+
+    configuration.setAllowCredentials(true);
+    configuration.setMaxAge(3600L);
+
+    UrlBasedCorsConfigurationSource source =
+        new UrlBasedCorsConfigurationSource();
+
+    // Aplica o CORS a todos os endpoints
+    source.registerCorsConfiguration("/**", configuration);
+
+    return source;
+}
+    
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
         .csrf(csrf -> csrf.disable())
+        .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(HttpMethod.GET, "/livros/**").hasAnyRole("USUARIO", "BIBLIOTECARIO")
             .requestMatchers(HttpMethod.GET, "/autores/**").hasAnyRole("USUARIO", "BIBLIOTECARIO")
@@ -41,6 +84,7 @@ public class SecurityConfig {
             .requestMatchers("/usuarios/**").hasRole("BIBLIOTECARIO")
            .requestMatchers("/bibliotecarios/**").hasRole("BIBLIOTECARIO")
             .requestMatchers("/enderecos/**").hasRole("BIBLIOTECARIO")
+            .requestMatchers(HttpMethod.POST, "/abnt/**").hasAnyRole("USUARIO", "BIBLIOTECARIO")
             .anyRequest().authenticated()
         )
         .httpBasic(basic -> {});

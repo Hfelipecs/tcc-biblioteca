@@ -20,7 +20,7 @@ public class UsuarioService {
     private EnderecoRepository enderecoRepository;
     
 
-    // CREATE
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -33,32 +33,27 @@ public class UsuarioService {
         }
         return usuarioRepository.save(usuario);
     }
-    // READ - todos
+    
     public List<Usuario> listarTodos() {
         return usuarioRepository.findAll();
     }
 
-    // READ - por ID
     public Optional<Usuario> buscarPorId(int id) {
         return usuarioRepository.findById(id);
     }
 
-    // READ - por email
     public Usuario buscarPorEmail(String email) {
         return usuarioRepository.findByEmail(email);
     }
 
-    // READ - por CPF
     public Usuario buscarPorCPF(String cpf) {
         return usuarioRepository.findByCPF(cpf);
     }
 
-    // UPDATE
     public Usuario atualizar(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
 
-    // DELETE
     public void deletar(int id) {
         usuarioRepository.deleteById(id);
     }
