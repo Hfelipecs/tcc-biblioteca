@@ -1,7 +1,9 @@
 package com.app.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -25,13 +27,26 @@ public class Emprestimo extends AbstractEntity {
     @JoinColumn(name = "bibliotecario_id")
     private Bibliotecario Bibliotecario;
 
-    private String DataEmprestimo;
-    private String DataPrevistaDevolucao;
-    private String DataEfetivaDevolucao;
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm")
+    private Date DataEmprestimo;
+
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private Date DataPrevistaDevolucao;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm")
+    private Date DataEfetivaDevolucao;
+
     private String Status;
 
     public Emprestimo() {}
 
+    /**
+     * Verifica se ainda é possível adicionar mais um livro a ESTE
+     * empréstimo específico (limite de 3 livros por empréstimo).
+     */
     public boolean podeAdicionarLivro() {
         return Livros.size() < LIMITE_LIVROS;
     }
@@ -49,12 +64,16 @@ public class Emprestimo extends AbstractEntity {
 
     public Bibliotecario getBibliotecario() { return Bibliotecario; }
     public void setBibliotecario(Bibliotecario bibliotecario) { Bibliotecario = bibliotecario; }
-    public String getDataEmprestimo() { return DataEmprestimo; }
-    public void setDataEmprestimo(String dataEmprestimo) { DataEmprestimo = dataEmprestimo; }
-    public String getDataPrevistaDevolucao() { return DataPrevistaDevolucao; }
-    public void setDataPrevistaDevolucao(String dataPrevistaDevolucao) { DataPrevistaDevolucao = dataPrevistaDevolucao; }
-    public String getDataEfetivaDevolucao() { return DataEfetivaDevolucao; }
-    public void setDataEfetivaDevolucao(String dataEfetivaDevolucao) { DataEfetivaDevolucao = dataEfetivaDevolucao; }
+
+    public Date getDataEmprestimo() { return DataEmprestimo; }
+    public void setDataEmprestimo(Date dataEmprestimo) { DataEmprestimo = dataEmprestimo; }
+
+    public Date getDataPrevistaDevolucao() { return DataPrevistaDevolucao; }
+    public void setDataPrevistaDevolucao(Date dataPrevistaDevolucao) { DataPrevistaDevolucao = dataPrevistaDevolucao; }
+
+    public Date getDataEfetivaDevolucao() { return DataEfetivaDevolucao; }
+    public void setDataEfetivaDevolucao(Date dataEfetivaDevolucao) { DataEfetivaDevolucao = dataEfetivaDevolucao; }
+
     public String getStatus() { return Status; }
     public void setStatus(String status) { Status = status; }
 }

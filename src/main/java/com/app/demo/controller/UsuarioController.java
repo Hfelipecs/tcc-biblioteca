@@ -62,6 +62,14 @@ public class UsuarioController {
         return new ResponseEntity<>(usuarioService.atualizar(usuario), HttpStatus.OK);
     }
 
+    
+    @PutMapping(path = "/{id}/desbanir")
+    @Transactional(rollbackFor = Exception.class)
+    public ResponseEntity<?> desbanir(@PathVariable int id) {
+        verificarSeUsuarioExiste(id);
+        return new ResponseEntity<>(usuarioService.desbanir(id), HttpStatus.OK);
+    }
+
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<?> deletar(@PathVariable int id) {
         verificarSeUsuarioExiste(id);

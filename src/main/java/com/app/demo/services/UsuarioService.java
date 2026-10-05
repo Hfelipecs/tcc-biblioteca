@@ -18,9 +18,6 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
     @Autowired
     private EnderecoRepository enderecoRepository;
-    
-
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -33,7 +30,7 @@ public class UsuarioService {
         }
         return usuarioRepository.save(usuario);
     }
-    
+
     public List<Usuario> listarTodos() {
         return usuarioRepository.findAll();
     }
@@ -51,6 +48,15 @@ public class UsuarioService {
     }
 
     public Usuario atualizar(Usuario usuario) {
+        return usuarioRepository.save(usuario);
+    }
+
+    public Usuario desbanir(int usuarioId) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+        usuario.setTotalmenteInapto(false);
+        usuario.setQuantidadeDesvios(0);
+        usuario.setDataFimBloqueio(null);
         return usuarioRepository.save(usuario);
     }
 

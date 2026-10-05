@@ -62,11 +62,13 @@ public class EmprestimoController {
 
     @PutMapping(path = "/{id}/devolucao")
     @Transactional(rollbackFor = Exception.class)
-    public ResponseEntity<?> registrarDevolucao(@PathVariable int id,
-                                                 @RequestParam String dataEfetivaDevolucao) {
+    public ResponseEntity<?> registrarDevolucao(@PathVariable int id) {
         verificarSeEmprestimoExiste(id);
-        return new ResponseEntity<>(
-                emprestimoService.registrarDevolucao(id, dataEfetivaDevolucao), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(emprestimoService.registrarDevolucao(id), HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping(path = "/{id}")
